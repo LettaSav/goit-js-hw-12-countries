@@ -1,13 +1,13 @@
-{ {#each this } }
-<image src = {{urlToImage}} alt = "Country Flag"></image>
+{{#each this}}
+<image src={{urlToImage}} alt="Country Flag"></image>
 <ul>
     <h1>{{ name }}</h1>
     <li>
-    {{ capital }}  
+        {{ capital }}
     </li>
     <li>{{ population }}</li>
     <li> {{languages}}
     </li>
 </ul>
 
-{ { /each}}
+{{/each}}

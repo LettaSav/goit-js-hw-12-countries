@@ -1,8 +1,16 @@
-import countries from './templates';
+import countries from './templates.hbs';
+import API from './fetch_api';
+import _ from 'lodash';
 
 const searchForm = document.querySelector('.js_input');
+const cardContainer = document.querySelector('.cardContainer');
 
-searchForm.addEventListener('submit', onSearch);
+const debounce = require('lodash/debounce');
+const debouncedFunction = debounce(() => {
+  onSearch;
+}, 500);
+
+searchForm.addEventListener('submit', debouncedFunction);
 
 function onSearch(e) {
   e.preventDefault();
@@ -18,7 +26,7 @@ function onSearch(e) {
 
 function renderCountries(country) {
   const markup = countries(country);
-  refs.cardContainer.innerHTML = markup;
+  cardContainer.innerHTML = markup;
 }
 
 function onFetchError(error) {
@@ -27,8 +35,7 @@ function onFetchError(error) {
 
 // =========================================
 
-const url =
-  'https://newsapi.org/v2/everything?q=carshttps://restcountries.eu/rest/v2/name';
+const url = 'https://restcountries.eu/rest/v2/name';
 
 fetch(url)
   .then(r => r.json())
