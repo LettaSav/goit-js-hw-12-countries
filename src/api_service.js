@@ -4,19 +4,20 @@ import _ from 'lodash';
 
 const searchForm = document.querySelector('.js_input');
 const cardContainer = document.querySelector('.cardContainer');
+let searchQuery = '';
 
 const debounce = require('lodash/debounce');
 const debouncedFunction = debounce(() => {
   onSearch;
 }, 500);
 
-searchForm.addEventListener('submit', debouncedFunction);
+searchForm.addEventListener('input', debouncedFunction);
 
 function onSearch(e) {
   e.preventDefault();
 
   const form = e.currentTarget;
-  const searchQuery = form.elements.query.value;
+  searchQuery = form.elements.query.value;
 
   API.fetchCountry(searchQuery)
     .then(renderCountries)
@@ -32,11 +33,3 @@ function renderCountries(country) {
 function onFetchError(error) {
   alert('Упс, страна не найдена!!!');
 }
-
-// =========================================
-
-const url = 'https://restcountries.eu/rest/v2/name';
-
-fetch(url)
-  .then(r => r.json())
-  .then(console.log);
