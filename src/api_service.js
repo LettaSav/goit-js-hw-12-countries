@@ -1,34 +1,38 @@
+'use strict';
 import countries from './templates.hbs';
-import _ from 'lodash';
+import API from './fetchCountries';
+import { alert, error } from '@pnotify/core';
 
 const searchForm = document.querySelector('.js_input');
 const cardContainer = document.querySelector('.cardContainer');
-let searchQuery = '';
 
 const debounce = require('lodash/debounce');
-const debouncedFunction = debounce(() => {
-  onSearch;
-}, 500);
 
-searchForm.addEventListener('input', debouncedFunction);
+searchForm.addEventListener('input', debounce(onSearch, 500));
 
 function onSearch(e) {
   e.preventDefault();
 
-  const form = e.currentTarget;
-  searchQuery = form.elements.query.value;
+  const searchQuery = e.target.value;
 
-  fetchCountry(searchQuery)
+  API.fetchCountries(searchQuery)
     .then(renderCountries)
-    .catch(onFetchError)
-    .finally(() => form.reset());
+    .catch(onFetchError, tooManyCountries)
+    .finally(() => searchForm.reset());
 }
 
 function renderCountries(country) {
   const markup = countries(country);
-  cardContainer.innerHTML = markup;
+  cardContainer.insertAdjacentHTML('afterbegin', markup);
 }
 
-function onFetchError(error) {
-  alert('Упс, страна не найдена!!!');
+function onFetchError({ error }) {
+  error({ text: 'Ops, country is not found!!!' });
+}
+function tooManyCountries({ alert }) {
+  if (data.length > 10) {
+    alert({
+      text: 'Too many matches found. Please enter a more specific query!',
+    });
+  }
 }
