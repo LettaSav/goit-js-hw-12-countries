@@ -1,6 +1,6 @@
 'use strict';
 import countries from './templates.hbs';
-import API from './fetchCountries';
+import fetchCountries from './fetchCountries';
 import { alert, error } from '@pnotify/core';
 
 const searchForm = document.querySelector('.js_input');
@@ -15,24 +15,28 @@ function onSearch(e) {
 
   const searchQuery = e.target.value;
 
-  API.fetchCountries(searchQuery)
+  fetchCountries(searchQuery)
+    .then(data => {
+      if (data.length > 10) {
+        error({
+          text: 'Too many matches found. Please enter a more specific query!',
+        });
+      }
+    })
     .then(renderCountries)
-    .catch(onFetchError, tooManyCountries)
-    .finally(() => searchForm.reset());
+    .catch(onFetchError)
+    .finally(() => resetForm());
 }
 
-function renderCountries(country) {
+function renderCountries(countries, country) {
   const markup = countries(country);
   cardContainer.insertAdjacentHTML('afterbegin', markup);
 }
 
-function onFetchError({ error }) {
+function onFetchError() {
   error({ text: 'Ops, country is not found!!!' });
 }
-function tooManyCountries({ alert }) {
-  if (data.length > 10) {
-    alert({
-      text: 'Too many matches found. Please enter a more specific query!',
-    });
-  }
+
+function resetForm() {
+  cardContainer.innerHTML = '';
 }
