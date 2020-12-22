@@ -1,5 +1,4 @@
 import countries from './templates.hbs';
-import API from './fetch_api';
 import _ from 'lodash';
 
 const searchForm = document.querySelector('.js_input');
@@ -19,7 +18,7 @@ function onSearch(e) {
   const form = e.currentTarget;
   searchQuery = form.elements.query.value;
 
-  API.fetchCountry(searchQuery)
+  fetchCountry(searchQuery)
     .then(renderCountries)
     .catch(onFetchError)
     .finally(() => form.reset());
