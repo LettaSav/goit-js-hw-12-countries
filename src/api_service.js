@@ -1,5 +1,5 @@
 'use strict';
-import country from './templates.hbs';
+import countries from './templates.hbs';
 import fetchCountries from './fetchCountries';
 import { alert, error } from '@pnotify/core';
 import countriesList from './countriesTemplates.hbs';
@@ -22,13 +22,9 @@ function onSearch(e) {
     .finally(() => resetForm());
 }
 
-function renderCountries(countries) {
-  const markup = countries.map(country => template(country)).join();
+function renderCountries() {
+  const markup = countries.map(country => template(country)).join('');
   cardContainer.insertAdjacentHTML('afterbegin', markup);
-}
-
-function onFetchError() {
-  error({ text: 'Please enter name of country' });
 }
 
 function resetForm() {
@@ -40,10 +36,14 @@ function countrySearch(data) {
       text: 'Too many matches found. Please enter a more specific query!',
     });
   } else if (data.length >= 2) {
-    renderCountries(data, countriesList);
+    renderCountries(data, countries);
   } else if (data.status === 404) {
     error({ text: 'Ops, country is not found!!!' });
   } else {
-    renderCountries(data, country);
+    renderCountries(data, countriesList);
   }
+}
+
+function onFetchError() {
+  error({ text: 'Please enter name of country' });
 }
