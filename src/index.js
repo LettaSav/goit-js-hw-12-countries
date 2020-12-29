@@ -1,4 +1,4 @@
 import './styles.css';
-import './api_service.js';
+import './js/api_service';
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';

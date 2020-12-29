@@ -11,7 +11,9 @@ html {
   list-style-type: none;
 }
 body {
-  background-color: rgb(178, 102, 255);
+  background-image: url(./img/world_map.jpg);
+  background-repeat: no-repeat;
+  max-width: 100%;
 }
 
 .input-wrapper {
@@ -27,7 +29,7 @@ body {
   height: 0;
   max-width: 100%;
   font-family: Roboto, Arial, sans-serif;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid rgb(12, 11, 11);
   position: absolute;
   left: 0;
   bottom: 0;
@@ -38,7 +40,7 @@ body {
 }
 
 input {
-  color: #ddd;
+  color: rgb(12, 10, 10);
   border: none;
   padding: 0;
   border-radius: 0;
@@ -48,18 +50,20 @@ input {
   font-size: 1.5rem;
   line-height: 3em;
   font-family: Roboto, Arial, sans-serif;
-  border-bottom: 3px solid #333333;
+  border-bottom: 3px solid #070606;
   background-color: transparent;
 }
 .countries_wrapper {
   max-width: 100%;
-  color: rgb (255, 154, 255);
+  background-image: url(./img/world_map.jpg);
+  background-repeat: no-repeat;
+  color: rgb(10, 8, 8);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: auto;
   margin-left: auto;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 28px rgba(8, 8, 8, 0.25), 0 10px 10px rgba(8, 7, 7, 0.22);
 }
 .countriesContainer {
   padding-top: 10px;
@@ -68,6 +72,10 @@ input {
 }
 .country_info {
   padding-top: 10px;
+}
+.country_name {
+  align-items: center;
+  justify-content: center;
 }
 .country_lang {
   padding-top: 5px;

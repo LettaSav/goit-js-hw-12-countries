@@ -1,9 +1,8 @@
 'use strict';
-import countries from './templates.hbs';
+import countries from '../templates/templates.hbs';
 import fetchCountries from './fetchCountries';
 import { alert, error } from '@pnotify/core';
-
-import countriesList from './countriesTemplates.hbs';
+import countriesList from '../templates/countriesTemplates.hbs';
 import debounce from 'lodash/debounce';
 import { templates } from 'handlebars';
 
