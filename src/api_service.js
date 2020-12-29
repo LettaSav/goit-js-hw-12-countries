@@ -2,12 +2,13 @@
 import countries from './templates.hbs';
 import fetchCountries from './fetchCountries';
 import { alert, error } from '@pnotify/core';
+
 import countriesList from './countriesTemplates.hbs';
+import debounce from 'lodash/debounce';
+import { templates } from 'handlebars';
 
 const searchForm = document.querySelector('.js_input');
 const cardContainer = document.querySelector('.cardContainer');
-
-const debounce = require('lodash/debounce');
 
 searchForm.addEventListener('input', debounce(onSearch, 500));
 
@@ -17,13 +18,13 @@ function onSearch(e) {
   const searchQuery = e.target.value;
 
   fetchCountries(searchQuery)
+    .finally(() => resetForm())
     .then(countrySearch)
-    .catch(onFetchError)
-    .finally(() => resetForm());
+    .catch(onFetchError);
 }
 
-function renderCountries() {
-  const markup = countries.map(country => template(country)).join('');
+function renderCountries(data, template) {
+  const markup = template(data);
   cardContainer.insertAdjacentHTML('afterbegin', markup);
 }
 
@@ -34,13 +35,17 @@ function countrySearch(data) {
   if (data.length > 10) {
     alert({
       text: 'Too many matches found. Please enter a more specific query!',
+      delay: 1000,
     });
   } else if (data.length >= 2) {
-    renderCountries(data, countries);
-  } else if (data.status === 404) {
-    error({ text: 'Ops, country is not found!!!' });
-  } else {
     renderCountries(data, countriesList);
+  } else if (data.status === 404) {
+    error({
+      text: 'Ops, country is not found!!!',
+      delay: 1000,
+    });
+  } else {
+    renderCountries(data, countries);
   }
 }
 
